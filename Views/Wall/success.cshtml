@@ -1,0 +1,40 @@
+<div class="container">
+<h1>CodingDojo Wall</h1>
+<p>Welcome @ViewBag.userInfo.FirstName</p>
+<a asp-action="logout" asp-controller="Home">Logout</a>
+<partial name="postMessage"/>
+</div>
+
+@foreach(var val in @ViewBag.allinfo){
+    <div class="card">
+        <div class="card-header">
+            <p>@val.UserCreated.FirstName @val.UserCreated.LastName Posted at @val.CreatedAt:</p>
+        </div>
+        <div class="card-body">
+            <p>@val.MessageContent</p>
+        </div>
+        <div class="side" style="margin: 0 3rem;">
+        @if(@val.MessageComment!=null){
+            @foreach(var com in @val.MessageComment){
+                <div class="card">
+                    <div class="card-header">
+                    <p>@com.UserCreated.FirstName @com.UserCreated.LastName Commented at @com.CreatedAt:</p>
+                    </div>
+                    <div class="card-body">
+                        <p>@com.CommentContent</p>
+                    </div>
+                </div>
+            }
+        }
+        <form action="AddC/@val.MessageId" asp-comtroller="Wall" method="post">
+            <div class="form-group">
+                <textarea name="CommentC" style="width:100%;"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit">Post a Comment</button>
+            </div>
+        </form>
+        </div>
+        
+    </div>
+}
